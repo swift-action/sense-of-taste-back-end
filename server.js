@@ -17,7 +17,7 @@ mongoose.connect(`mongodb://localhost:27017/foods`, { useNewUrlParser: true, use
 
 app.get('/foods', getFoodHandler);
 app.get('/foodSearch', searchFoodHandler);
-// app.get('/favFoods', favFoodsHandler);
+app.post('/favFoods', favFoodsHandler);
 
 const FoodSchema = new mongoose.Schema({
     name: String,
@@ -192,10 +192,7 @@ function favCollections() {
 
 function getFoodHandler(req, res) {
     let { email } = req.query;
-    console.log(email);
-
     res.send(foodArr);
-
 }
 
 
@@ -217,7 +214,7 @@ function searchFoodHandler(req, res) {
                 })
             }
             )
-            console.log(firstFoodArr)
+
             res.send(firstFoodArr)
 
         }).catch(error => {
@@ -225,25 +222,34 @@ function searchFoodHandler(req, res) {
         })
 }
 
-// function favFoodsHandler(req, res) {
-//     const { email, name, image, ingredientLines, calories, totalTime } = req.body;
-//     const fav
-//     userModel.findOne({ email: email }, (error, userData) => {
-//         if (error) {
-//             res.send(`DATA NOT FOUND`)
-//         } else {
-//             userData.foods.push({
-//                 name: name,
-//                 image: image,
-//                 ingredientLines: ingredientLines,
-//                 calories: calories,
-//                 totalTime: totalTime
-//             })
-//         }
+function favFoodsHandler(req, res) {
 
-//     })
+    const { email, name, image, ingredientLines, calories, totalTime } = req.body;
 
-// }
+    userModel.findOne({ email: email }, (error, userData) => {
+        if (error) {
+            res.send(`DATA NOT FOUND`)
+        } else  {
+            let filterArray = userData.favArray.filter(item=>{
+            if(item.name == name)
+            return item;             
+            })
+            if (filterArray.length == 0){
+           userData.favArray.push({
+                name: name,
+                image: image,
+                ingredientLines: ingredientLines,
+                calories: calories,
+                totalTime: totalTime
+            })
+        }
+            // userData.save();
+            console.log(userData.favArray);
+        }
+
+    })
+
+}
 
 
 app.listen(PORT, () => {
