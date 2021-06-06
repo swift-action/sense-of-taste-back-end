@@ -197,11 +197,11 @@ function getFoodHandler(req, res) {
 
 
 function searchFoodHandler(req, res) {
-
+    console.log(req.query);
     const { mealName, maxCalories } = req.query;
 
     axios
-        .get(`https://api.edamam.com/search?q=chicken&app_id=${process.env.FOOD_ID}&app_key=${process.env.FOOD_KEY}&from=0&to=30&calories=591-722&health=alcohol-free`)
+        .get(`https://api.edamam.com/search?q=${mealName}&app_id=${process.env.FOOD_ID}&app_key=${process.env.FOOD_KEY}&from=0&to=30&calories=0-${maxCalories}&health=alcohol-free`)
         .then(item => {
 
             const firstFoodArr = item.data.hits.map(element => {
