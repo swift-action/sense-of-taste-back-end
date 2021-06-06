@@ -22,8 +22,9 @@ app.post('/schedual', schedualHandler);
 app.post('/cheat', cheatHandler);
 app.get('/cheatsmeal', profileCheatHandler);
 app.get('/favmeals', profileCheatHandler);
-app.get('/schedualmeals', profileCheatHandler);
+app.get('/schedualmeals', profileSchedualHandler);
 app.delete('/cheatsmeal/:index', cheatDeleteHandeler);
+app.delete('/schedualdelete/:index', schedualDeleteHandeler);
 
 
 const FoodSchema = new mongoose.Schema({
@@ -319,23 +320,64 @@ function cheatDeleteHandeler(req, res) {
     const { email } = req.query;
     const { index } = Number(req.params);
     userModel.findOne({ email: email }, (error, userData) => {
-      if(error){
-          console.log('safsadf jakar b batool');
-      }else{
-          userData.cheatArray=[];
-          userData.save();
-          res.send({
-            name: 'go pick a cheat meal',
-            image: 'https://geo-static.traxsource.com/files/images/36bf18cd2e6e946b0eb7b3ab2790e6ec.jpg',
-            ingredientLines: 'why havent you picked a cheat meal yet',
-            calories: 'dude...DUUUUDE',
-            totalTime: 'WHY ARE YOU STILL READING THIS',
-          })
-      }            
+        if (error) {
+            console.log('safsadf jakar b batool');
+        } else {
+            userData.cheatArray = [];
+            userData.save();
+            res.send({
+                name: 'go pick a cheat meal',
+                image: 'https://geo-static.traxsource.com/files/images/36bf18cd2e6e946b0eb7b3ab2790e6ec.jpg',
+                ingredientLines: 'why havent you picked a cheat meal yet',
+                calories: 'dude...DUUUUDE',
+                totalTime: 'WHY ARE YOU STILL READING THIS',
+            })
+        }
     })
 }
 
+function profileSchedualHandler(req, res) {
+    // console.log(req.query);
+    const { email } = req.query;
+    userModel.findOne({ email: email }, (error, userData) => {
+        if (error) {
+            console.log('jaker b saeed ');
+        } else {
+            // console.log(userData.foods);
+            res.send(userData.foods);
+        }
 
+    })
+
+}
+
+function schedualDeleteHandeler(req, res) {
+    // console.log(req.query);
+    // console.log(req.params);
+    const { email } = req.query;
+    const { index } = Number(req.params);
+
+    userModel.findOne({ email: email }, (error, userData) => {
+        if (error) {
+            console.log('jaker b amrro');
+        } else {
+            // console.log(userData.foods);
+            // const filteredData = userData[0].foods.((item, idx) => {
+                // if (idx !== index)
+                    // return idx !== index ;
+
+            // })
+            
+            // userData[0].foods = filteredData;
+            // console.log(filteredData);
+
+            userData.foods.splice(index,1)
+            console.log(userData.foods);
+            userData.save();
+            res.send(userData.foods);
+        }
+    })
+}
 
 app.listen(PORT, () => {
     console.log(`Listen on PORT ${PORT}`)
