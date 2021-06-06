@@ -19,6 +19,8 @@ app.get('/foods', getFoodHandler);
 app.get('/foodSearch', searchFoodHandler);
 app.post('/favFoods', favFoodsHandler);
 app.post('/schedual', schedualHandler);
+app.post('/cheat', cheatHandler);
+
 
 const FoodSchema = new mongoose.Schema({
     name: String,
@@ -274,6 +276,28 @@ function schedualHandler(req, res) {
             console.log(userData.foods);
         }
     })
+}
+function cheatHandler(req,res){
+    const { email, name, image, ingredientLines, calories, totalTime } = req.body;
+    userModel.findOne({email:email},(error,userData)=>{
+        if(error){
+            console.log('error from cheatHandler');
+        }else{
+            if(userData.cheatArray.length<1){
+                userData.cheatArray.push({
+                 name: name,
+                 image: image,
+                 ingredientLines: ingredientLines,
+                 calories: calories,
+                 totalTime: totalTime, 
+                });
+            }
+            userData.save();
+            console.log(userData.cheatArray);
+        }
+
+    })
+
 }
 
 
