@@ -18,6 +18,7 @@ mongoose.connect(`mongodb://localhost:27017/foods`, { useNewUrlParser: true, use
 app.get('/foods', getFoodHandler);
 app.get('/foodSearch', searchFoodHandler);
 app.post('/favFoods', favFoodsHandler);
+app.post('/schedual', schedualHandler);
 
 const FoodSchema = new mongoose.Schema({
     name: String,
@@ -30,8 +31,8 @@ const FoodSchema = new mongoose.Schema({
 const favSchema = new mongoose.Schema({
     email: String,
     foods: [FoodSchema],
-    favArray:[FoodSchema],
-    cheatArray:[FoodSchema]
+    favArray: [FoodSchema],
+    cheatArray: [FoodSchema]
 });
 
 const foodModel = mongoose.model('foodModel', FoodSchema);
@@ -147,38 +148,38 @@ function favCollections() {
     const user1 = new userModel({
         email: 'balomari995@gmail.com',
         foods: [],
-        favArray:[],
-        cheatArray:[]
+        favArray: [],
+        cheatArray: []
     })
     const user2 = new userModel({
         email: 'sokiyna.naser@gmail.com',
         foods: [],
-        favArray:[],
-        cheatArray:[]
+        favArray: [],
+        cheatArray: []
     })
     const user3 = new userModel({
         email: 'saeedawwad450@gmail.com',
         foods: [],
-        favArray:[],
-        cheatArray:[]
+        favArray: [],
+        cheatArray: []
     })
     const user4 = new userModel({
         email: 'batoolayyad1996@yahoo.com',
         foods: [],
-        favArray:[],
-        cheatArray:[]
+        favArray: [],
+        cheatArray: []
     })
     const user5 = new userModel({
         email: 'amroalbarham@gmail.com',
         foods: [],
-        favArray:[],
-        cheatArray:[]
+        favArray: [],
+        cheatArray: []
     })
     const user6 = new userModel({
         email: 'ha2205713@gmail.com',
         foods: [],
-        favArray:[],
-        cheatArray:[]
+        favArray: [],
+        cheatArray: []
     })
     user1.save();
     user2.save();
@@ -229,20 +230,20 @@ function favFoodsHandler(req, res) {
     userModel.findOne({ email: email }, (error, userData) => {
         if (error) {
             res.send(`DATA NOT FOUND`)
-        } else  {
-            let filterArray = userData.favArray.filter(item=>{
-            if(item.name == name)
-            return item;             
+        } else {
+            let filterArray = userData.favArray.filter(item => {
+                if (item.name == name)
+                    return item;
             })
-            if (filterArray.length == 0){
-           userData.favArray.push({
-                name: name,
-                image: image,
-                ingredientLines: ingredientLines,
-                calories: calories,
-                totalTime: totalTime
-            })
-        }
+            if (filterArray.length == 0) {
+                userData.favArray.push({
+                    name: name,
+                    image: image,
+                    ingredientLines: ingredientLines,
+                    calories: calories,
+                    totalTime: totalTime
+                })
+            }
             // userData.save();
             console.log(userData.favArray);
         }
@@ -250,6 +251,32 @@ function favFoodsHandler(req, res) {
     })
 
 }
+function schedualHandler(req, res) {
+    const { email, name, image, ingredientLines, calories, totalTime } = req.body;
+    userModel.findOne({ email: email }, (error, userData) => {
+        if (error) {
+            console.log('WTF');
+        } else {
+            let filterArray = userData.foods.filter(item => {
+                if (item.name == name)
+                    return item;
+            })
+            if (userData.foods.length < 3 && filterArray.length == 0) {
+                userData.foods.push({
+                    name: name,
+                    image: image,
+                    ingredientLines: ingredientLines,
+                    calories: calories,
+                    totalTime: totalTime,
+                })
+            }
+            userData.save();
+            console.log(userData.foods);
+        }
+    })
+}
+
+
 
 
 app.listen(PORT, () => {
