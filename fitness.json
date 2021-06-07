@@ -1,0 +1,45 @@
+[
+    {
+        "name":" Squat",
+        "image":" https://media.self.com/photos/5ea9bc77bb9c6b75996c7e91/16:9/w_4510,h_2537,c_limit/squats_woman_exercise.jpg",
+        "description": "A squat is a strength exercise in which the trainee lowers their hips from a standing position and then stands back up. ... Squats are considered a vital exercise for increasing the strength and size of the lower body muscles as well as developing core strength.",
+        "repeat":"10 times"
+    },
+    {
+        "name":" Bridge",
+        "image":" https://www.fitstream.com/images/bodyweight-training/bodyweight-exercises/short-bridge.jpeg",
+        "description": "Do the bridge to strengthen your core muscles. Lie on your back with your knees bent. Raise your hips off the floor until your hips are aligned with your knees and shoulders. ... Hold for three deep breaths.",
+        "repeat":"10 times"
+    },
+    {
+        "name":"pushup",
+        "image":"https://media.istockphoto.com/photos/father-and-son-having-fun-doing-pushups-picture-id1263880422?b=1&k=6&m=1263880422&s=170667a&w=0&h=oOfdzUY4BMOcS4rWXw_E7Iqa-olRlXzkjYdqFhHhq68=",
+        "description":  "a conditioning exercise performed in a prone position by raising and lowering the body with the straightening and bending of the arms while keeping the back straight and supporting the body on the hands and toes.",
+        "repeat":"20 times"
+    },
+    {
+        "name": "Lunges",
+        "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/reverse-lunges-1544222100.jpg",
+        "description": "A lunge can refer to any position of the human body where one leg is positioned forward with knee bent and foot flat on the ground while the other leg is positioned behind.",
+        "repeat":"15 times"
+    },
+    {
+        "name":" Standing overhead dumbbell presses",
+        "image":" https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXagg0wr2B9ORKzGf8pb387Mp1nvJEvbMjrQ&usqp=CAU",
+        "description":  "The way to do the overhead dumbbell press is to master the start and end positions find the bottom of rack position by holding a pair of dumbbells. With your elbows pulled into your ribs.",
+        "repeat":"12 times"
+    },
+    {
+        "name": "Single-leg deadlifts",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRe-SLH1Pp9XB_383b_fFibUNoFWScq2f8GRw&usqp=CAU",
+        "description": "This is another exercise that challenges your balance. Single-leg deadlifts require stability and leg strength. Grab a light to moderate dumbbell to complete this move."
+        ,
+         "times":"2 min"
+    },
+    {
+        "name":" Dumbbell rows",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQY4PpNcae598cpB2DcfAY0tgCmsHnnaRGnoA&usqp=CAU",
+        "description": " dumbbell rows are also another compound exercise that strengthens multiple muscles in your upper body. ",
+        "repeat":"10 times"
+    }
+]
