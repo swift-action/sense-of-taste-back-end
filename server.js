@@ -24,11 +24,12 @@ app.post('/favFoods', favFoodsHandler);
 app.post('/schedual', schedualHandler);
 app.post('/cheat', cheatHandler);
 app.get('/cheatsmeal', profileCheatHandler);
-app.get('/favmeals', profileCheatHandler);
+app.get('/favmeals', profileFavHandler);
 app.get('/schedualmeals', profileSchedualHandler);
 app.delete('/cheatsmeal/:index', cheatDeleteHandeler);
 app.delete('/schedualdelete/:index', schedualDeleteHandeler);
 app.get('/fitness',getFetnessHandler);
+app.delete('/favdelete/:index', favDeleteHandeler);
 
 
 const FoodSchema = new mongoose.Schema({
@@ -152,8 +153,8 @@ function favFoodsHandler(req, res) {
                     totalTime: totalTime
                 })
             }
-            // userData.save();
-            console.log(userData.favArray);
+            userData.save();
+            // console.log(userData.favArray);
         }
 
     })
@@ -205,7 +206,7 @@ function cheatHandler(req, res) {
 }
 
 function profileCheatHandler(req, res) {
-    console.log(req.query);
+    // console.log(req.query);
     const { email } = req.query;
     userModel.findOne({ email: email }, (error, userData) => {
         if (error) {
@@ -279,7 +280,33 @@ function schedualDeleteHandeler(req, res) {
         }
     })
 }
+function profileFavHandler(req,res){
+    let {email}=req.query;
+    userModel.findOne({ email: email }, (error, userData) => {
+        if (error) {
+            console.log('jaker b saeed o heba ');
+        } else {
+            // console.log(userData.foods);
+            res.send(userData.favArray);
+        }
+    })
+}
 
+function favDeleteHandeler(req,res){
+ console.log(req.query);
+ let {email}=req.query;
+ let {index}=Number(req.params);
+userModel.findOne({email:email}, (error, userData)=>{
+    if (error){
+        console.log('ya rab batol t5ales');
+    }else{
+        userData.favArray.splice(index,1);
+        console.log(userData.favArray);
+        userData.save();
+        res.send(userData.favArray);
+    }
+  }) 
+}
 
 
 function getFetnessHandler (req,res){
