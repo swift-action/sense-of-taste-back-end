@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const axios = require('axios');
 
 const foodArr = require('./foods.json');
-const fitnessArray = require('./fintness.json');
+const fitnessArray = require('./fitness.json');
 
 
 const app = express();
