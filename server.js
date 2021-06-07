@@ -20,6 +20,10 @@ app.get('/foodSearch', searchFoodHandler);
 app.post('/favFoods', favFoodsHandler);
 app.post('/schedual', schedualHandler);
 app.post('/cheat', cheatHandler);
+app.get('/cheatsmeal', profileCheatHandler);
+app.get('/favmeals', profileCheatHandler);
+app.get('/schedualmeals', profileCheatHandler);
+app.delete('/cheatsmeal/:index', cheatDeleteHandeler);
 
 
 const FoodSchema = new mongoose.Schema({
@@ -273,33 +277,63 @@ function schedualHandler(req, res) {
                 })
             }
             userData.save();
-            console.log(userData.foods);
         }
     })
 }
-function cheatHandler(req,res){
+function cheatHandler(req, res) {
     const { email, name, image, ingredientLines, calories, totalTime } = req.body;
-    userModel.findOne({email:email},(error,userData)=>{
-        if(error){
+    userModel.findOne({ email: email }, (error, userData) => {
+        if (error) {
             console.log('error from cheatHandler');
-        }else{
-            if(userData.cheatArray.length<1){
+        } else {
+            if (userData.cheatArray.length < 1) {
                 userData.cheatArray.push({
-                 name: name,
-                 image: image,
-                 ingredientLines: ingredientLines,
-                 calories: calories,
-                 totalTime: totalTime, 
+                    name: name,
+                    image: image,
+                    ingredientLines: ingredientLines,
+                    calories: calories,
+                    totalTime: totalTime,
                 });
             }
             userData.save();
-            console.log(userData.cheatArray);
         }
 
     })
 
 }
 
+function profileCheatHandler(req, res) {
+    console.log(req.query);
+    const { email } = req.query;
+    userModel.findOne({ email: email }, (error, userData) => {
+        if (error) {
+            console.log('what ever i want bas jakar b batool')
+        } else {
+            userData.save();
+            res.send(userData.cheatArray);
+        }
+    })
+}
+
+function cheatDeleteHandeler(req, res) {
+    const { email } = req.query;
+    const { index } = Number(req.params);
+    userModel.findOne({ email: email }, (error, userData) => {
+      if(error){
+          console.log('safsadf jakar b batool');
+      }else{
+          userData.cheatArray=[];
+          userData.save();
+          res.send({
+            name: 'go pick a cheat meal',
+            image: 'https://geo-static.traxsource.com/files/images/36bf18cd2e6e946b0eb7b3ab2790e6ec.jpg',
+            ingredientLines: 'why havent you picked a cheat meal yet',
+            calories: 'dude...DUUUUDE',
+            totalTime: 'WHY ARE YOU STILL READING THIS',
+          })
+      }            
+    })
+}
 
 
 
