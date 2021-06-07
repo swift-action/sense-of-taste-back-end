@@ -8,6 +8,9 @@ const mongoose = require('mongoose');
 const axios = require('axios');
 
 const foodArr = require('./foods.json');
+const fitnessArray = require('./fintness.json');
+
+
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -25,6 +28,7 @@ app.get('/favmeals', profileCheatHandler);
 app.get('/schedualmeals', profileSchedualHandler);
 app.delete('/cheatsmeal/:index', cheatDeleteHandeler);
 app.delete('/schedualdelete/:index', schedualDeleteHandeler);
+app.get('/fitness',getFetnessHandler);
 
 
 const FoodSchema = new mongoose.Schema({
@@ -377,6 +381,13 @@ function schedualDeleteHandeler(req, res) {
             res.send(userData.foods);
         }
     })
+}
+
+
+
+function getFetnessHandler (req,res){
+    let { email } = req.query;
+    res.send(fitnessArray);
 }
 
 app.listen(PORT, () => {
