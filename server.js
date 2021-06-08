@@ -20,15 +20,15 @@ mongoose.connect(`mongodb://localhost:27017/foods`, { useNewUrlParser: true, use
 
 app.get('/foods', getFoodHandler);
 app.get('/foodSearch', searchFoodHandler);
-app.post('/favFoods', favFoodsHandler);
-app.post('/schedual', schedualHandler);
-app.post('/cheat', cheatHandler);
 app.get('/cheatsmeal', profileCheatHandler);
 app.get('/favmeals', profileFavHandler);
 app.get('/schedualmeals', profileSchedualHandler);
+app.get('/fitness',getFetnessHandler);
+app.post('/favFoods', favFoodsHandler);
+app.post('/schedual', schedualHandler);
+app.post('/cheat', cheatHandler);
 app.delete('/cheatsmeal/:index', cheatDeleteHandeler);
 app.delete('/schedualdelete/:index', schedualDeleteHandeler);
-app.get('/fitness',getFetnessHandler);
 app.delete('/favdelete/:index', favDeleteHandeler);
 
 
@@ -109,21 +109,23 @@ function getFoodHandler(req, res) {
 function searchFoodHandler(req, res) {
     console.log(req.query);
     const { mealName, maxCalories } = req.query;
-
+      
     axios
         .get(`https://api.edamam.com/search?q=${mealName}&app_id=${process.env.FOOD_ID}&app_key=${process.env.FOOD_KEY}&from=0&to=30&calories=0-${maxCalories}&health=alcohol-free`)
         .then(item => {
 
-            const firstFoodArr = item.data.hits.map(element => {
-                return ({
+            const firstFoodArr=[];
+             item.data.hits.map(element => {
+                if(element.recipe.calories<maxCalories){
+                firstFoodArr.push({
                     name: element.recipe.label,
                     image: element.recipe.image,
                     ingredientLines: element.recipe.ingredientLines,
-                    calories: element.recipe.calories,
+                    calories: Math.floor(element.recipe.calories),
                     totalTime: element.recipe.totalTime
                 })
             }
-            )
+            })
 
             res.send(firstFoodArr)
 
@@ -144,7 +146,7 @@ function favFoodsHandler(req, res) {
                 if (item.name == name)
                     return item;
             })
-            if (filterArray.length == 0) {
+            if (filterArray.length == 0 && userData.favArray.length<3) {
                 userData.favArray.push({
                     name: name,
                     image: image,
@@ -227,13 +229,13 @@ function cheatDeleteHandeler(req, res) {
         } else {
             userData.cheatArray = [];
             userData.save();
-            res.send({
+            res.send([{
                 name: 'go pick a cheat meal',
                 image: 'https://geo-static.traxsource.com/files/images/36bf18cd2e6e946b0eb7b3ab2790e6ec.jpg',
                 ingredientLines: 'why havent you picked a cheat meal yet',
                 calories: 'dude...DUUUUDE',
                 totalTime: 'WHY ARE YOU STILL READING THIS',
-            })
+            }])
         }
     })
 }
