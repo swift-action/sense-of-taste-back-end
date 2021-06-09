@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cors());
 const PORT = process.env.PORT;
 
-mongoose.connect(`mongodb://localhost:27017/foods`, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(`${process.env.MONGODB_URI}`, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.get('/foods', getFoodHandler);
 app.get('/foodSearch', searchFoodHandler);
@@ -90,12 +90,19 @@ function favCollections() {
         favArray: [],
         cheatArray: []
     })
+    const user7 = new userModel({
+        email: 'senseoftestaction@gmail.com',
+        foods: [],
+        favArray: [],
+        cheatArray: []
+    })
     user1.save();
     user2.save();
     user3.save();
     user4.save();
     user5.save();
     user6.save();
+    user7.save();
 }
 
 //  favCollections();
