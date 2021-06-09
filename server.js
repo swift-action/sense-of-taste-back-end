@@ -258,8 +258,9 @@ function profileSchedualHandler(req, res) {
 function schedualDeleteHandeler(req, res) {
     // console.log(req.query);
     // console.log(req.params);
-    const { email } = req.query;
+    const { email,idex } = req.query;
     const { index } = Number(req.params);
+    console.log(index);
 
     userModel.findOne({ email: email }, (error, userData) => {
         if (error) {
@@ -275,7 +276,7 @@ function schedualDeleteHandeler(req, res) {
             // userData[0].foods = filteredData;
             // console.log(filteredData);
 
-            userData.foods.splice(index,1)
+            userData.foods.splice(idex,1)
             console.log(userData.foods);
             userData.save();
             res.send(userData.foods);
@@ -296,13 +297,13 @@ function profileFavHandler(req,res){
 
 function favDeleteHandeler(req,res){
  console.log(req.query);
- let {email}=req.query;
+ let {email,idex}=req.query;
  let {index}=Number(req.params);
 userModel.findOne({email:email}, (error, userData)=>{
     if (error){
         console.log('ya rab batol t5ales');
     }else{
-        userData.favArray.splice(index,1);
+        userData.favArray.splice(idex,1);
         console.log(userData.favArray);
         userData.save();
         res.send(userData.favArray);
