@@ -105,7 +105,7 @@ function favCollections() {
     user7.save();
 }
 
- favCollections();
+//  favCollections();
 
 function getFoodHandler(req, res) {
     let { email } = req.query;
